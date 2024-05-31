@@ -48,14 +48,14 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [chunks, setChunks] = useState<Blob[]>([]);
   const [data, setData] = useState<any[][]>([]);
-  const [index, setIndex] = useState<any>();
+  const [index, setIndex] = useState<any>(undefined);
   const [position, setPosigin] = useState("0,0");
 
   if (chunks.length !== chunkPaths.length) {
     fetch(chunkPaths[chunks.length])
       .then((res) => res.blob())
       .then((blob) => setChunks([...chunks, blob]));
-  } else {
+  } else if (index === undefined) {
     new Blob(chunks).arrayBuffer().then((buffer) =>
       parquetRead({
         file: buffer,
